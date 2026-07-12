@@ -3742,21 +3742,13 @@ private fun StatBox(
     val t = stringsFn()
     val lang = LocalLang.current
     val parts = formatBytesParts(speed, lang)
-    val hazeState = LocalHazeState.current
     val surfaceColor = MaterialTheme.colorScheme.surface
     val isDark = MaterialTheme.colorScheme.background.luminance() < 0.5f
     val accent = if (isDark) color else lerp(color, Color.Black, 0.42f)
     Column(
         modifier
             .clip(RoundedCornerShape(14.dp))
-            .then(
-                if (hazeState != null) Modifier.hazeEffect(hazeState) {
-                    blurRadius = 10.dp
-                    backgroundColor = surfaceColor
-                    tints = listOf(HazeTint(surfaceColor.copy(alpha = 0.25f)))
-                    noiseFactor = 0f
-                } else Modifier
-            )
+            .background(surfaceColor.copy(alpha = if (isDark) 0.55f else 0.75f))
             .background(accent.copy(alpha = if (isDark) 0.12f else 0.10f))
             .border(BorderStroke(1.dp, accent.copy(alpha = if (isDark) 0.75f else 0.55f)), RoundedCornerShape(14.dp))
             .padding(horizontal = 10.dp, vertical = 6.dp),
